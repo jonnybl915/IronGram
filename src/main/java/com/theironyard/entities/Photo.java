@@ -1,12 +1,14 @@
 package com.theironyard.entities;
 
 import javax.persistence.*;
+import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by jonathandavidblack on 6/28/16.
  */
 @Entity
-@Table
+@Table(name = "photos")
 public class Photo {
     @Id
     @GeneratedValue
@@ -21,6 +23,12 @@ public class Photo {
     @Column(nullable = false)
     String filename;
 
+    @Column(nullable = true)
+    LocalDateTime time;
+
+    @Column
+    int durationInSeconds;
+
     public Photo() {
     }
 
@@ -28,6 +36,29 @@ public class Photo {
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
+    }
+
+    public Photo(User sender, User recipient, String filename, LocalDateTime time) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.filename = filename;
+        this.time = time;
+    }
+
+    public Photo(User sender, User recipient, String filename, LocalDateTime time, int durationInSeconds) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.filename = filename;
+        this.time = time;
+        this.durationInSeconds = durationInSeconds;
+    }
+
+    public Photo(int id, User sender, User recipient, String filename, LocalDateTime time) {
+        this.id = id;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.filename = filename;
+        this.time = time;
     }
 
     public int getId() {
@@ -60,5 +91,21 @@ public class Photo {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public int getDurationInSeconds() {
+        return durationInSeconds;
+    }
+
+    public void setDurationInSeconds(int durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
     }
 }

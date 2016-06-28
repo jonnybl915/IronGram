@@ -15,9 +15,14 @@
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file"/>
         <input type="text" name="receiver" placeholder="Receiver Name"/>
+        <input type="text" name="durationInSeconds" placeholder="Duration in Seconds"/>
         <button type="submit">Upload</button>
     </form>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
     <div id="photos"></div>
+
 </div>
 
 <script src="jquery-3.0.0.js"></script>

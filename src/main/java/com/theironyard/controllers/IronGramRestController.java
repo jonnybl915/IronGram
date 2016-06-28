@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.security.auth.callback.PasswordCallback;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by jonathandavidblack on 6/28/16.
@@ -41,19 +44,38 @@ public class IronGramRestController {
         return user;
     }
 
-
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public void logout(HttpSession session) {
-        session.invalidate();
-    }
-
-
     @RequestMapping(path = "/photos", method = RequestMethod.GET)
     public Iterable<Photo> getPhotos(HttpSession session) {
 
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
+        Iterable<Photo> setPhotoTimeList = photos.findAll();
+        LocalDateTime timeSetTime = LocalDateTime.now();
+        for(Photo ph : setPhotoTimeList) {
+            if (ph.getTime() == null) {
+
+                ph.setTime(timeSetTime);
+                photos.save(ph);
+            }
+        }
+
+        Iterable<Photo> photoList = photos.findAll();
+
+        for (Photo p : photoList) {
+            if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(10))) {
+                photos.delete(p.getId());
+            }
+        }
         return photos.findByRecipient(user);
 
     }
 }
+  //  LocalDateTime ldt = LocalDateTime.now();
+  //  Timestamp t = Timestamp.valueOf(ldt);
+  //  LocalDateTime ldt2 = t.toLocalDateTime();
+
+// info for timestamp and localdatetime conversions http://www.coderanch.com/t/651936/JDBC/databases/Convert-java-time-LocalDateTime-SE
+
+//    AnonFile fileToDelete = files.findOne(files.findMinNonPermId());  //creating an object into which we insert the item(file) to delete
+//    File fileOnDisk = new File("public/files/" + fileToDelete.getRealFileName());
+//fileOnDisk.delete();
