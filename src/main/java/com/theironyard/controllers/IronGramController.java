@@ -34,7 +34,7 @@ public class IronGramController {
         Server.createWebServer().start();
     }
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public String upload(MultipartFile file, String receiver, HttpSession session, String time) throws Exception {
+    public String upload(MultipartFile file, String receiver, HttpSession session, Long durationInSeconds) throws Exception {
         String username = (String) session.getAttribute("username");
         User sender = users.findFirstByName(username);
         User rec = users.findFirstByName(receiver);
@@ -50,7 +50,7 @@ public class IronGramController {
         FileOutputStream fos = new FileOutputStream(photoFile);
         fos.write(file.getBytes());
 
-        Photo photo = new Photo(sender, rec, photoFile.getName());
+        Photo photo = new Photo(sender, rec, photoFile.getName(), durationInSeconds);
         photos.save(photo);
 
         return "redirect:/";
