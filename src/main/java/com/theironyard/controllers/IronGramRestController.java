@@ -50,11 +50,10 @@ public class IronGramRestController {
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
         Iterable<Photo> setPhotoTimeList = photos.findAll();
-        LocalDateTime timeSetTime = LocalDateTime.now();
         for(Photo ph : setPhotoTimeList) {
             if (ph.getTime() == null) {
 
-                ph.setTime(timeSetTime);
+                ph.setTime(LocalDateTime.now());
                 photos.save(ph);
             }
         }
@@ -63,6 +62,10 @@ public class IronGramRestController {
 
         for (Photo p : photoList) {
             if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(10))) {
+
+                Photo photoToDelete = photos.findOne(p.getId());
+                File photoFileToDelete = new File("public/photos/" + photoToDelete.getFilename());
+                photoFileToDelete.delete();
                 photos.delete(p.getId());
             }
         }
