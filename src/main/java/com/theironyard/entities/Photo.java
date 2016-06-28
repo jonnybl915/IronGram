@@ -27,7 +27,7 @@ public class Photo {
     LocalDateTime time;
 
     @Column
-    int durationInSeconds;
+    long durationInSeconds;
 
     public Photo() {
     }
@@ -38,14 +38,14 @@ public class Photo {
         this.filename = filename;
     }
 
-    public Photo(User sender, User recipient, String filename, LocalDateTime time) {
+    public Photo(User sender, User recipient, String filename, long durationInSeconds) {
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
-        this.time = time;
+        this.durationInSeconds = durationInSeconds;
     }
 
-    public Photo(User sender, User recipient, String filename, LocalDateTime time, int durationInSeconds) {
+    public Photo(User sender, User recipient, String filename, LocalDateTime time, long durationInSeconds) {
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
@@ -53,13 +53,14 @@ public class Photo {
         this.durationInSeconds = durationInSeconds;
     }
 
-    public Photo(int id, User sender, User recipient, String filename, LocalDateTime time) {
+    public Photo(int id, User sender, User recipient, String filename, long durationInSeconds) {
         this.id = id;
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
-        this.time = time;
+        this.durationInSeconds = durationInSeconds;
     }
+
 
     public int getId() {
         return id;
@@ -101,11 +102,11 @@ public class Photo {
         this.time = time;
     }
 
-    public int getDurationInSeconds() {
+    public long getDurationInSeconds() {
         return durationInSeconds;
     }
 
-    public void setDurationInSeconds(int durationInSeconds) {
+    public void setDurationInSeconds(long durationInSeconds) {
         this.durationInSeconds = durationInSeconds;
     }
 }

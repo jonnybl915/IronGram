@@ -49,7 +49,7 @@ public class IronGramRestController {
 
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
-        Iterable<Photo> setPhotoTimeList = photos.findAll();
+        Iterable<Photo> setPhotoTimeList = photos.findByRecipient(user);
         for(Photo ph : setPhotoTimeList) {
             if (ph.getTime() == null) {
 
@@ -58,10 +58,10 @@ public class IronGramRestController {
             }
         }
 
-        Iterable<Photo> photoList = photos.findAll();
-
+        Iterable<Photo> photoList = photos.findByRecipient(user);
         for (Photo p : photoList) {
-            if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(10))) {
+
+            if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(p.getDurationInSeconds()))) {
 
                 Photo photoToDelete = photos.findOne(p.getId());
                 File photoFileToDelete = new File("public/photos/" + photoToDelete.getFilename());
