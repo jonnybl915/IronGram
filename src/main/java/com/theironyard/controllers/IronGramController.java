@@ -53,11 +53,13 @@ public class IronGramController {
         String fileContents = file.getContentType();
         if (!fileContents.startsWith("image/")) {
             throw new Exception("YOU MAY ONLY UPLOAD PHOTOS!!!");
+
         }
+        else {
 
-        Photo photo = new Photo(sender, rec, photoFile.getName(), durationInSeconds, isPublic);
-        photos.save(photo);
-
+            Photo photo = new Photo(sender, rec, photoFile.getName(), durationInSeconds, isPublic);
+            photos.save(photo);
+        }
         return "redirect:/";
     }
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
