@@ -14,6 +14,7 @@ public interface PhotoRepository extends CrudRepository<Photo, Integer> {
     public Iterable<Photo> findByRecipient(User recipient);
     public Iterable<Photo> findBySenderAndIsPublic(User sender, Boolean isPublic);
     public Iterable<Photo> findBySender(User sender);
+    public Iterable<Photo> findByRecipientAndIsPublic(User recipient, Boolean isPublic);
 
 
 

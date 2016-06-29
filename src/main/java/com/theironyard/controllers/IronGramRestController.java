@@ -52,7 +52,7 @@ public class IronGramRestController {
 
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
-        Iterable<Photo> setPhotoTimeList = photos.findByRecipient(user);
+        Iterable<Photo> setPhotoTimeList = photos.findByRecipientAndIsPublic(user, false);
         for(Photo ph : setPhotoTimeList) {
             if (ph.getTime() == null) {
 
@@ -61,10 +61,8 @@ public class IronGramRestController {
             }
         }
 
-        Iterable<Photo> photoList = photos.findByRecipient(user);
+        Iterable<Photo> photoList = photos.findByRecipientAndIsPublic(user, false);
         for (Photo p : photoList) {
-
-            if(!p.getPublic()) {
 
             if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(p.getDurationInSeconds()))) {
 
@@ -72,7 +70,7 @@ public class IronGramRestController {
                 File photoFileToDelete = new File("public/photos/" + photoToDelete.getFilename());
                 photoFileToDelete.delete();
                 photos.delete(p.getId());
-                }
+
             }
         }
         return photos.findByRecipient(user);
@@ -81,7 +79,7 @@ public class IronGramRestController {
 
     @RequestMapping(path = "/public-photos", method = RequestMethod.GET)
     public Iterable<Photo> publicPhotos(String username) {
-        User user = users.findFirstByName(username);
+        User user = users.findOneByName(username);
         return photos.findBySenderAndIsPublic(user, true);
     }
 }
