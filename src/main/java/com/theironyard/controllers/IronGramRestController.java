@@ -17,6 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by jonathandavidblack on 6/28/16.
@@ -61,24 +64,26 @@ public class IronGramRestController {
         Iterable<Photo> photoList = photos.findByRecipient(user);
         for (Photo p : photoList) {
 
+            if(!p.getPublic()) {
+
             if(LocalDateTime.now().isAfter(p.getTime().plusSeconds(p.getDurationInSeconds()))) {
 
                 Photo photoToDelete = photos.findOne(p.getId());
                 File photoFileToDelete = new File("public/photos/" + photoToDelete.getFilename());
                 photoFileToDelete.delete();
                 photos.delete(p.getId());
+                }
             }
         }
         return photos.findByRecipient(user);
 
     }
+
+    @RequestMapping(path = "/public-photos", method = RequestMethod.GET)
+    public Iterable<Photo> publicPhotos(String username) {
+        User user = users.findOneByName(username);
+        return photos.findBySenderAndIsPublic(user, true);
+    }
 }
-  //  LocalDateTime ldt = LocalDateTime.now();
-  //  Timestamp t = Timestamp.valueOf(ldt);
-  //  LocalDateTime ldt2 = t.toLocalDateTime();
 
-// info for timestamp and localdatetime conversions http://www.coderanch.com/t/651936/JDBC/databases/Convert-java-time-LocalDateTime-SE
 
-//    AnonFile fileToDelete = files.findOne(files.findMinNonPermId());  //creating an object into which we insert the item(file) to delete
-//    File fileOnDisk = new File("public/files/" + fileToDelete.getRealFileName());
-//fileOnDisk.delete();

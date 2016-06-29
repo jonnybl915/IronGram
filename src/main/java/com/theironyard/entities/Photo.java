@@ -29,6 +29,9 @@ public class Photo {
     @Column
     long durationInSeconds;
 
+    @Column
+    boolean isPublic = false;
+
     public Photo() {
     }
 
@@ -38,6 +41,16 @@ public class Photo {
         this.filename = filename;
     }
 
+
+    public Photo(User sender, User recipient, String filename, LocalDateTime time, long durationInSeconds, boolean isPublic) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.filename = filename;
+        this.time = time;
+        this.durationInSeconds = durationInSeconds;
+        this.isPublic = isPublic;
+    }
+
     public Photo(User sender, User recipient, String filename, long durationInSeconds) {
         this.sender = sender;
         this.recipient = recipient;
@@ -45,20 +58,21 @@ public class Photo {
         this.durationInSeconds = durationInSeconds;
     }
 
-    public Photo(User sender, User recipient, String filename, LocalDateTime time, long durationInSeconds) {
+    public Photo(User sender, User recipient, String filename, long durationInSeconds, boolean isPublic) {
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
-        this.time = time;
         this.durationInSeconds = durationInSeconds;
+        this.isPublic = isPublic;
     }
 
-    public Photo(int id, User sender, User recipient, String filename, long durationInSeconds) {
+    public Photo(int id, User sender, User recipient, String filename, long durationInSeconds, boolean isPublic) {
         this.id = id;
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
         this.durationInSeconds = durationInSeconds;
+        this.isPublic = isPublic;
     }
 
 
@@ -108,5 +122,13 @@ public class Photo {
 
     public void setDurationInSeconds(long durationInSeconds) {
         this.durationInSeconds = durationInSeconds;
+    }
+
+    public boolean getPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }
