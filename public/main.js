@@ -13,8 +13,6 @@ function getPhotos() {
     });
 }
 
-
-
 function login() {
     var data = {
         "name": $("#username").val(),
@@ -34,5 +32,31 @@ function login() {
     });
 }
 
-$("#loggedIn").hide();
-setInterval(getPhotos, 1000);
+function logout() {
+$.ajax({
+    "type": "POST",
+    "url": "/logout",
+    "success": function() {
+    $("#notLoggedIn").show();
+    $("#loggedIn").hide();
+
+    }
+    });
+}
+
+$.ajax({
+    "type": "GET",
+    "url": "/user",
+    "success": function(data) {
+        if (data) {
+        $("#notLoggedIn").hide();
+        getPhotos();
+    }
+    else {
+        $("#loggedIn").hide();
+      }
+    }
+});
+
+
+setInterval(getPhotos, 2000);

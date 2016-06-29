@@ -12,6 +12,8 @@
 </div>
 
 <div id="loggedIn">
+    <button onclick="logout()">Logout</button>
+
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file"/>
         <br>
@@ -29,10 +31,7 @@
         <button type="submit">See Photos</button>
     </form>
     <br>
-    <form action="/logout" method="post">
-        <button type="submit">Logout</button>
-    </form>
-    <br>
+
     <div id="photos"></div>
 
 </div>

@@ -62,9 +62,5 @@ public class IronGramController {
         }
         return "redirect:/";
     }
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
+
 }
